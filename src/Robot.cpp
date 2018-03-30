@@ -60,6 +60,7 @@ public:
 		LeftElevatorTalon->ConfigPeakOutputForward(kMaxElevatorSpeed, kTimeoutMs);
 		LeftElevatorTalon->ConfigPeakOutputReverse(-kMaxElevatorSpeed, kTimeoutMs);
 
+		SmartDashboard::PutNumber("DB/String 0", 1);
 		SmartDashboard::PutNumber("DB/Slider 0", kP);
 		SmartDashboard::PutNumber("DB/Slider 1", kI);
 		SmartDashboard::PutNumber("DB/Slider 2", kD);
@@ -158,7 +159,7 @@ public:
 		}
 
 		LeftElevatorTalon->Set(ControlMode::Position, desiredPosition);
-		SmartDashboard::PutString("DB/String 5", std::to_string(fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition())));
+		SmartDashboard::PutString("DB/String 5", std::to_string(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition()));
 		frc::Scheduler::GetInstance()->Run();
 	}
 
@@ -172,11 +173,11 @@ private:
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
 	std::shared_ptr<WPI_TalonSRX>  RightElevatorTalon;
 	int desiredPosition = 0;
-	double kP = 0.1;
+	double kP = 6.0;
 	double kI = 0.0;
 	double kD = 0.0;
-	double kF = 0.0;
-	static constexpr bool kSensorPhase = false;
+	double kF = 0.0001;
+	static constexpr bool kSensorPhase = true;
 	static constexpr int kSlotIdx = 0;
 	static constexpr int kPIDLoopIdx = 0;
 	static constexpr int kTimeoutMs = 10;
