@@ -26,6 +26,19 @@ public:
 		{
 			printf("There be dragons here");
 		}
+
+		try
+		{
+			RightElevatorTalon.reset(new WPI_TalonSRX(11));
+		}
+		catch(const std::exception& e)
+		{
+			printf("There be dragons here");
+		}
+
+		RightElevatorTalon->Follow(*LeftElevatorTalon);
+		RightElevatorTalon->SetInverted(true);
+
 		int absolutePosition = LeftElevatorTalon->GetSelectedSensorPosition(0) & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
 		/* use the low level API to set the quad encoder signal */
 		LeftElevatorTalon->SetSelectedSensorPosition(absolutePosition, kPIDLoopIdx, kTimeoutMs);
@@ -157,6 +170,7 @@ private:
 	frc::Command* m_autonomousCommand = nullptr;
 	frc::SendableChooser<frc::Command*> m_chooser;
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
+	std::shared_ptr<WPI_TalonSRX>  RightElevatorTalon;
 	int desiredPosition = 0;
 	double kP = 0.1;
 	double kI = 0.0;
